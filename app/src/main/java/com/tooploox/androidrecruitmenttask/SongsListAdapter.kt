@@ -3,11 +3,12 @@ package com.tooploox.androidrecruitmenttask
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.tooploox.androidrecruitmenttask.databinding.SongsListItemBinding
 
-class SongsListAdapter : ListAdapter<Song, SongsListAdapter.SongViewHolder>(/*Add diff callback*/) {
+class SongsListAdapter : ListAdapter<Song, SongsListAdapter.SongViewHolder>(SongDiffCallback()) {
 
     private lateinit var binding: SongsListItemBinding
 
@@ -25,5 +26,16 @@ class SongsListAdapter : ListAdapter<Song, SongsListAdapter.SongViewHolder>(/*Ad
 
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
         holder.onBind(getItem(position))
+    }
+}
+
+
+class SongDiffCallback : DiffUtil.ItemCallback<Song>() {
+    override fun areItemsTheSame(oldItem: Song, newItem: Song): Boolean {
+        return oldItem.value == newItem.value
+    }
+
+    override fun areContentsTheSame(oldItem: Song, newItem: Song): Boolean {
+        return oldItem == newItem
     }
 }
